@@ -1,0 +1,49 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ResourceManager : MonoBehaviour {
+
+    public static ResourceManager instance;
+
+
+    public float gold = 100f;
+    public float wood = 20f;
+    public float countdown = 1f;
+    public float goldPerSecond = 1f;
+    public float woodPerSecond = 1f;
+
+    public float goldTickRate = 1f;
+    public float woodClickRate = 1f;
+
+    public Text goldText;
+    public Text woodText;
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.LogError("More than one ResourceManager");
+            return;
+        }
+
+        instance = this;
+    }
+    // Update is called once per frame
+    void Update () {
+        if (countdown <= 0f)
+        {
+            gold = gold + goldPerSecond;
+            wood = wood + woodPerSecond;
+            countdown = goldTickRate;
+        }
+        countdown -= Time.deltaTime;
+
+        goldText.text = gold.ToString();
+        woodText.text = wood.ToString();
+    }
+
+
+
+}
