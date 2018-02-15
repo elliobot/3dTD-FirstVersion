@@ -40,8 +40,8 @@ public class ResourceManager : MonoBehaviour {
         }
         countdown -= Time.deltaTime;
 
-        goldText.text = gold.ToString();
-        woodText.text = wood.ToString();
+        goldText.text = gold.ToString() + " (+" + goldPerSecond + "/s)";
+        woodText.text = wood.ToString() + " (+" + woodPerSecond + "/s)";
     }
 
 

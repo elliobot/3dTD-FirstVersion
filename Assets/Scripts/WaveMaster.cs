@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class WaveMaster : MonoBehaviour
 {
+    public static WaveMaster instance;
 
     public Transform enemyPrefab;
     public Transform spawnPoint;
 
     public float timeBetweenWaves = 5f;
     private float countdown = 2f;
-    private int waveNumber = 1;
+    public int waveNumber = 1;
 
     private int waveIndex = 0;
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.LogError("More than one Upgrades");
+            return;
+        }
+
+        instance = this;
+    }
 
     // Update is called once per frame
     void Update()

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class FloorNode : MonoBehaviour {
 
@@ -46,57 +47,59 @@ public class FloorNode : MonoBehaviour {
 
     private void OnMouseDown()
     {
-        
-        if (buildManager.GetTurretToBuild() == null)
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            return;
+            if (buildManager.GetTurretToBuild() == null)
+            {
+                return;
+            }
+            if (turret != null)
+            {
+                Debug.Log("Nope");
+                return;
+            }
+
+            turretSelected = turretToBuild.GetComponent<Turret>();
+
+            if (ResourceManager.instance.gold < turretSelected.goldCost || ResourceManager.instance.wood < turretSelected.woodCost)
+            {
+
+            }
+            else
+            {
+                ResourceManager.instance.gold = ResourceManager.instance.gold - turretSelected.goldCost;
+                ResourceManager.instance.wood = ResourceManager.instance.wood - turretSelected.woodCost;
+                this.turret = (GameObject)Instantiate(turretToBuild, transform.position + positionOffset, transform.rotation);
+            }
+
+
         }
-        if (turret != null)
-        {
-            Debug.Log("Nope");
-            return;
-        }
-
-        turretSelected = turretToBuild.GetComponent<Turret>();
-
-        if (ResourceManager.instance.gold < turretSelected.goldCost || ResourceManager.instance.wood < turretSelected.woodCost)
-        {
-
-        }
-        else
-        {
-            ResourceManager.instance.gold = ResourceManager.instance.gold - turretSelected.goldCost;
-            ResourceManager.instance.wood = ResourceManager.instance.wood - turretSelected.woodCost;
-            this.turret = (GameObject)Instantiate(turretToBuild, transform.position + positionOffset, transform.rotation);
-        }
-
-
     }
-
 
 
     void OnMouseOver()
     {
-        
-        if (buildManager.GetTurretToBuild() == null)
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            return;
+            if (buildManager.GetTurretToBuild() == null)
+            {
+                return;
+            }
+
+
+            turretToBuild = BuildManager.instance.GetTurretToBuild();
+
+
+            rend.material.color = hoverColor;
+
+
+            if (turretToBuild != null && turretSelected != null)
+            {
+
+                SelectArea();
+            }
+
         }
-
-
-        turretToBuild = BuildManager.instance.GetTurretToBuild();
-
-
-        rend.material.color = hoverColor;
-
-
-        if (turretToBuild != null && turretSelected != null)
-        {
-
-            SelectArea();
-        }
-
-
 
 
 

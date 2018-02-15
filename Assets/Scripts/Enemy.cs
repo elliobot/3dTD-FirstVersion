@@ -13,7 +13,8 @@ public class Enemy : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        currentEnemyHealth = maxEnemyHealth;
+        maxEnemyHealth += WaveMaster.instance.waveNumber ;
+        currentEnemyHealth = maxEnemyHealth - 2;
         rend = GetComponent<Renderer>();
 
     }
